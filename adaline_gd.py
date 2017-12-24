@@ -7,7 +7,7 @@ import pandas as pd
 from utils_for_image import get_image_info
 
 
-class Perceptron(object):
+class AdalineGd(object):
     def __init__(self, eta=0.01, n_iter=10) -> None:
         super().__init__()
         self.eta = eta
@@ -67,7 +67,7 @@ def test():
     # plt.ylabel('sepal length')
     # plt.legend(loc='upper left')
     # plt.show()
-    ppn = Perceptron(eta=0.1, n_iter=10)
+    ppn = AdalineGd(eta=0.1, n_iter=10)
     ppn.fit(X, y)
     # plt.plot(range(1, len(ppn.errors_) + 1), ppn.errors_, marker='o')
     # plt.xlabel('Epochs')
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     X, y = load_train_data()
     time2 = time.time()
     print('加载数据耗时:', time2 - time1)
-    ppn = Perceptron(eta=0.01, n_iter=100)
+    ppn = AdalineGd(eta=0.01, n_iter=100)
     ppn.fit(X, y)
     time3 = time.time()
     print('训练耗时:', time3 - time2)
