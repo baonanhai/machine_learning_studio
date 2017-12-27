@@ -1,10 +1,8 @@
-import os
-import time
+#! /usr/bin/python3
+# -*- coding:utf-8 -*-
 
 import numpy as np
 import pandas as pd
-
-from utils_for_image import get_image_info
 
 
 class AdalineGd(object):
@@ -23,7 +21,6 @@ class AdalineGd(object):
             self.w_[0] += self.eta * errors.sum()
             cost = (errors ** 2).sum() / 2.0
             self.cost_.append(cost)
-        print('错误计数历史:', self.errors_)
         return self
 
     def net_input(self, X):
@@ -38,26 +35,9 @@ class AdalineGd(object):
         return np.where(self.net_input(X) >= 0.0, 1, -1)
 
 
-def load_train_data():
-    X = []
-    y = []
-    for root, dirs, files in os.walk('train_img', topdown=False):
-        for name in files:
-            file_path = os.path.join(root, name)
-            file_info = os.path.split(file_path)
-            X.append(get_image_info(file_path))
-            if '1' in file_info[0]:
-                flag = 1
-            else:
-                flag = 0
-            y.append(flag)
-    return np.array(X), np.array(y),
-
-
-def test():
+def main():
     df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data', header=None)
     y = df.iloc[0:100, 4].values
-    print(y)
     y = np.where(y == 'Iris-setosa', -1, 1)
     X = df.iloc[0:100, [0, 2]].values
 
@@ -76,11 +56,4 @@ def test():
 
 
 if __name__ == '__main__':
-    time1 = time.time()
-    X, y = load_train_data()
-    time2 = time.time()
-    print('加载数据耗时:', time2 - time1)
-    ppn = AdalineGd(eta=0.01, n_iter=100)
-    ppn.fit(X, y)
-    time3 = time.time()
-    print('训练耗时:', time3 - time2)
+    main()
